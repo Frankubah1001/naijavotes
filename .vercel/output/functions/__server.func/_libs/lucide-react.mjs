@@ -97,6 +97,42 @@ var Award = createLucideIcon("award", [["path", {
 * This source code is licensed under the ISC license.
 * See the LICENSE file in the root directory of this source tree.
 */
+var Building2 = createLucideIcon("building-2", [
+	["path", {
+		d: "M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z",
+		key: "1b4qmf"
+	}],
+	["path", {
+		d: "M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2",
+		key: "i71pzd"
+	}],
+	["path", {
+		d: "M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2",
+		key: "10jefs"
+	}],
+	["path", {
+		d: "M10 6h4",
+		key: "1itunk"
+	}],
+	["path", {
+		d: "M10 10h4",
+		key: "tcdvrf"
+	}],
+	["path", {
+		d: "M10 14h4",
+		key: "kelpxr"
+	}],
+	["path", {
+		d: "M10 18h4",
+		key: "1ulq68"
+	}]
+]);
+/**
+* @license lucide-react v0.510.0 - ISC
+*
+* This source code is licensed under the ISC license.
+* See the LICENSE file in the root directory of this source tree.
+*/
 var Check = createLucideIcon("check", [["path", {
 	d: "M20 6 9 17l-5-5",
 	key: "1gmf2c"
@@ -532,6 +568,26 @@ var MapPin = createLucideIcon("map-pin", [["path", {
 * This source code is licensed under the ISC license.
 * See the LICENSE file in the root directory of this source tree.
 */
+var Map = createLucideIcon("map", [
+	["path", {
+		d: "M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z",
+		key: "169xi5"
+	}],
+	["path", {
+		d: "M15 5.764v15",
+		key: "1pn4in"
+	}],
+	["path", {
+		d: "M9 3.236v15",
+		key: "1uimfh"
+	}]
+]);
+/**
+* @license lucide-react v0.510.0 - ISC
+*
+* This source code is licensed under the ISC license.
+* See the LICENSE file in the root directory of this source tree.
+*/
 var Radio = createLucideIcon("radio", [
 	["path", {
 		d: "M4.9 19.1C1 15.2 1 8.8 4.9 4.9",
@@ -789,4 +845,4 @@ var X = createLucideIcon("x", [["path", {
 	key: "d8bk6v"
 }]]);
 //#endregion
-export { ChevronRight as A, Dice2 as C, CircleHelp as D, CirclePlus as E, Award as M, CircleCheck as O, Dice3 as S, Coins as T, IdCard as _, Sparkles as a, Dice5 as b, Shield as c, Send as d, RotateCcw as f, Lock as g, LogOut as h, TriangleAlert as i, Check as j, CircleCheckBig as k, ShieldCheck as l, MapPin as m, Vote as n, Siren as o, Radio as p, UserCheck as r, ShoppingBag as s, X as t, ShieldAlert as u, Fingerprint as v, Dice1 as w, Dice4 as x, Dice6 as y };
+export { CircleCheckBig as A, Dice3 as C, CirclePlus as D, Coins as E, Check as M, Building2 as N, CircleHelp as O, Award as P, Dice4 as S, Dice1 as T, Lock as _, Sparkles as a, Dice6 as b, Shield as c, Send as d, RotateCcw as f, LogOut as g, MapPin as h, TriangleAlert as i, ChevronRight as j, CircleCheck as k, ShieldCheck as l, Map as m, Vote as n, Siren as o, Radio as p, UserCheck as r, ShoppingBag as s, X as t, ShieldAlert as u, IdCard as v, Dice2 as w, Dice5 as x, Fingerprint as y };
