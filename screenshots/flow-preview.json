@@ -1,0 +1,36 @@
+{
+  "url": "http://127.0.0.1:8080/",
+  "viewports": {
+    "desktop": {
+      "width": 1280,
+      "height": 800,
+      "status": 200,
+      "title": "Unit Day",
+      "hasCanvas": false,
+      "bodyTextLen": 4273,
+      "bodyTextHash": "102a124cad509edd74d72fb068ecdb94632604a570c4a62e1a56fc3bc3c8a835",
+      "bodyTextPrefix": "WARD 7 Unit Day Twelve activities. One polling unit. You are not",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/flow-preview.png"
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "title": "Unit Day",
+      "hasCanvas": false,
+      "bodyTextLen": 4273,
+      "bodyTextHash": "102a124cad509edd74d72fb068ecdb94632604a570c4a62e1a56fc3bc3c8a835",
+      "bodyTextPrefix": "WARD 7 Unit Day Twelve activities. One polling unit. You are not",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/flow-preview-mobile.png"
+    }
+  },
+  "brandWarnings": [],
+  "authWarnings": [],
+  "verdictFile": "/workspace/screenshots/flow-preview.json"
+}
