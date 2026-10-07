@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { UserCheck, Shield, Sparkles, MapPin, CheckCircle2, ChevronRight, IdCard } from "lucide-react";
-import { STATES_AND_LGAS, WARDS_BY_LGA, generatePollingUnits, type PollingUnitData } from "@/lib/election/pollingUnits";
+import { UserCheck, Shield, Sparkles, MapPin, CheckCircle2, ChevronRight, IdCard, Building2, Map } from "lucide-react";
+import { ALL_NIGERIA_STATES, getWardsForLga, getPollingUnitsForWard, type PollingUnitData } from "@/lib/election/pollingUnits";
 import { AVATAR_PRESETS, type AvatarStyle } from "@/lib/election/avatars";
 import { Avatar3D } from "./Avatar3D";
 
@@ -30,46 +30,62 @@ export function VoterRegistrationModal({ onComplete }: RegistrationFormProps) {
   const [state, setState] = useState("Lagos");
   const [lga, setLga] = useState("Ikeja");
   const [ward, setWard] = useState("Ward 01 - Alausa / Secretariat");
-  const [selectedPu, setSelectedPu] = useState<PollingUnitData | null>(null);
+  const [selectedPuNumber, setSelectedPuNumber] = useState<string>("");
   const [selectedAvatar, setSelectedAvatar] = useState<AvatarStyle>(AVATAR_PRESETS[0]);
-  const [isCollectingPVC, setIsCollectingPVC] = useState(false);
-  const [pvcReady, setPvcReady] = useState(false);
 
-  // Computed
-  const availableLgas = STATES_AND_LGAS[state]?.lgas || [];
-  const availableWards = WARDS_BY_LGA[lga] || [
-    `Ward 01 - Central ${lga}`,
-    `Ward 02 - North ${lga}`,
-    `Ward 03 - South ${lga}`,
-    `Ward 04 - East ${lga}`,
-  ];
-  const pollingUnits = generatePollingUnits(state, lga, ward);
+  // List of all 36 States + FCT sorted alphabetically
+  const stateNames = Object.keys(ALL_NIGERIA_STATES).sort();
+
+  // LGAs for currently selected state
+  const availableLgas = ALL_NIGERIA_STATES[state]?.lgas || [];
+  
+  // Wards for currently selected LGA
+  const availableWards = getWardsForLga(lga);
+
+  // Polling units for currently selected Ward
+  const pollingUnits = getPollingUnitsForWard(state, lga, ward);
+
+  // Currently selected Polling Unit object (or default to the first one)
+  const currentSelectedPu = pollingUnits.find((pu) => pu.puNumber === selectedPuNumber) || pollingUnits[0];
 
   const vinGenerated = `90F5-${Math.floor(1000 + Math.random() * 9000)}-${Math.floor(1000 + Math.random() * 9000)}-${Math.floor(10 + Math.random() * 90)}`;
   const ninGenerated = `2849${Math.floor(1000000 + Math.random() * 9000000)}`;
 
+  // When State changes -> Automatically load first LGA, its first Ward, and its first Polling Unit
   const handleStateChange = (newState: string) => {
     setState(newState);
-    const newLgas = STATES_AND_LGAS[newState]?.lgas || [];
+    const newLgas = ALL_NIGERIA_STATES[newState]?.lgas || [];
     const firstLga = newLgas[0] || "Central";
     setLga(firstLga);
-    const newWards = WARDS_BY_LGA[firstLga] || [`Ward 01 - Central ${firstLga}`];
-    setWard(newWards[0]);
-    setSelectedPu(null);
+
+    const newWards = getWardsForLga(firstLga);
+    const firstWard = newWards[0] || "Ward 01 - Central";
+    setWard(firstWard);
+
+    const newPus = getPollingUnitsForWard(newState, firstLga, firstWard);
+    setSelectedPuNumber(newPus[0]?.puNumber || "");
   };
 
+  // When LGA changes -> Automatically load its first Ward, and its first Polling Unit
   const handleLgaChange = (newLga: string) => {
     setLga(newLga);
-    const newWards = WARDS_BY_LGA[newLga] || [
-      `Ward 01 - Central ${newLga}`,
-      `Ward 02 - North ${newLga}`,
-    ];
-    setWard(newWards[0]);
-    setSelectedPu(null);
+    const newWards = getWardsForLga(newLga);
+    const firstWard = newWards[0] || "Ward 01 - Central";
+    setWard(firstWard);
+
+    const newPus = getPollingUnitsForWard(state, newLga, firstWard);
+    setSelectedPuNumber(newPus[0]?.puNumber || "");
+  };
+
+  // When Ward changes -> Automatically select first Polling Unit of that Ward
+  const handleWardChange = (newWard: string) => {
+    setWard(newWard);
+    const newPus = getPollingUnitsForWard(state, lga, newWard);
+    setSelectedPuNumber(newPus[0]?.puNumber || "");
   };
 
   const handleFinish = () => {
-    const finalPu = selectedPu || pollingUnits[0];
+    const finalPu = currentSelectedPu || pollingUnits[0];
     const registered: RegisteredVoter = {
       fullName: fullName.trim() || "Chinedu Adebayo",
       nin: ninGenerated,
@@ -143,26 +159,26 @@ export function VoterRegistrationModal({ onComplete }: RegistrationFormProps) {
             </div>
           </div>
 
-          <div>
-            <label className="block text-xs font-semibold tracking-wider text-muted uppercase mb-1.5">
-              Select Your State of Registration
+          {/* STATE DROPDOWN */}
+          <div className="bg-paper border border-line rounded-2xl p-4">
+            <label className="block text-xs font-semibold tracking-wider text-muted uppercase mb-2 flex items-center gap-1.5">
+              <Map className="size-4 text-leaf" />
+              Select Your State of Registration (36 States + FCT)
             </label>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-              {Object.keys(STATES_AND_LGAS).map((s) => (
-                <button
-                  key={s}
-                  type="button"
-                  onClick={() => handleStateChange(s)}
-                  className={`px-3 py-2.5 rounded-xl border text-sm font-semibold transition-all ${
-                    state === s
-                      ? "border-leaf bg-leaf text-paper shadow-md shadow-leaf/20"
-                      : "border-line bg-paper text-ink hover:border-leaf/50"
-                  }`}
-                >
-                  {s.replace("_", " ")}
-                </button>
+            <select
+              value={state}
+              onChange={(e) => handleStateChange(e.target.value)}
+              className="w-full px-4 py-3 rounded-xl border border-line bg-card text-ink text-base font-semibold focus:outline-none focus:border-leaf focus:ring-2 focus:ring-leaf/20 cursor-pointer"
+            >
+              {stateNames.map((s) => (
+                <option key={s} value={s}>
+                  {s} ({ALL_NIGERIA_STATES[s]?.lgas.length} LGAs)
+                </option>
               ))}
-            </div>
+            </select>
+            <p className="text-xs text-muted mt-2">
+              Selected State: <strong className="text-ink">{state}</strong>. Selecting this will load all of its official Local Governments in the next step.
+            </p>
           </div>
 
           <div className="flex justify-end pt-4">
@@ -171,25 +187,52 @@ export function VoterRegistrationModal({ onComplete }: RegistrationFormProps) {
               onClick={() => setStep("pu_select")}
               className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-leaf hover:bg-leaf/90 text-paper font-semibold shadow-lg shadow-leaf/25 transition-transform active:scale-95"
             >
-              Select Polling Unit
+              Select LGA, Ward & Polling Unit
               <ChevronRight className="size-4" />
             </button>
           </div>
         </div>
       )}
 
-      {/* STEP 2: SELECT POLLING UNIT */}
+      {/* STEP 2: SELECT LGA, WARD & POLLING UNIT (DYNAMIC CASCADING DROPDOWNS) */}
       {step === "pu_select" && (
         <div className="space-y-6">
-          <div className="bg-paper border border-line rounded-2xl p-4">
-            <h3 className="text-xs font-semibold tracking-wider text-muted uppercase mb-2">Location Drilldown</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div className="bg-paper border border-line rounded-2xl p-5 space-y-4">
+            <div className="flex items-center justify-between border-b border-line pb-2.5">
+              <h3 className="text-xs font-bold tracking-wider text-leaf uppercase flex items-center gap-2">
+                <Building2 className="size-4" /> Official Location Delimitation
+              </h3>
+              <span className="text-xs font-mono text-muted bg-card px-2.5 py-1 rounded-md border border-line">
+                State: {state}
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {/* 1. STATE SELECTION (Changeable) */}
               <div>
-                <label className="text-xs text-muted font-medium mb-1 block">Local Government Area (LGA)</label>
+                <label className="text-xs text-muted font-bold uppercase tracking-wider mb-1.5 block">
+                  1. State
+                </label>
+                <select
+                  value={state}
+                  onChange={(e) => handleStateChange(e.target.value)}
+                  className="w-full px-3 py-2.5 rounded-xl border border-line bg-card text-ink font-semibold focus:outline-none focus:border-leaf"
+                >
+                  {stateNames.map((s) => (
+                    <option key={s} value={s}>{s}</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* 2. LGA SELECTION (Dynamically Populated from State) */}
+              <div>
+                <label className="text-xs text-muted font-bold uppercase tracking-wider mb-1.5 block">
+                  2. Local Government (LGA)
+                </label>
                 <select
                   value={lga}
                   onChange={(e) => handleLgaChange(e.target.value)}
-                  className="w-full px-3 py-2.5 rounded-xl border border-line bg-card text-ink font-semibold"
+                  className="w-full px-3 py-2.5 rounded-xl border border-line bg-card text-ink font-semibold focus:outline-none focus:border-leaf"
                 >
                   {availableLgas.map((l) => (
                     <option key={l} value={l}>{l}</option>
@@ -197,15 +240,15 @@ export function VoterRegistrationModal({ onComplete }: RegistrationFormProps) {
                 </select>
               </div>
 
+              {/* 3. WARD SELECTION (Dynamically Populated from LGA) */}
               <div>
-                <label className="text-xs text-muted font-medium mb-1 block">Ward (Registration Area)</label>
+                <label className="text-xs text-muted font-bold uppercase tracking-wider mb-1.5 block">
+                  3. Ward (Registration Area)
+                </label>
                 <select
                   value={ward}
-                  onChange={(e) => {
-                    setWard(e.target.value);
-                    setSelectedPu(null);
-                  }}
-                  className="w-full px-3 py-2.5 rounded-xl border border-line bg-card text-ink font-semibold"
+                  onChange={(e) => handleWardChange(e.target.value)}
+                  className="w-full px-3 py-2.5 rounded-xl border border-line bg-card text-ink font-semibold focus:outline-none focus:border-leaf"
                 >
                   {availableWards.map((w) => (
                     <option key={w} value={w}>{w}</option>
@@ -213,49 +256,50 @@ export function VoterRegistrationModal({ onComplete }: RegistrationFormProps) {
                 </select>
               </div>
             </div>
+
+            {/* 4. POLLING UNIT DROPDOWN */}
+            <div className="pt-2">
+              <label className="text-xs text-muted font-bold uppercase tracking-wider mb-1.5 block">
+                4. Select Polling Unit (From Ward)
+              </label>
+              <select
+                value={selectedPuNumber || currentSelectedPu.puNumber}
+                onChange={(e) => setSelectedPuNumber(e.target.value)}
+                className="w-full px-4 py-3 rounded-xl border border-leaf/60 bg-card text-ink font-semibold focus:outline-none focus:ring-2 focus:ring-leaf/20"
+              >
+                {pollingUnits.map((pu) => (
+                  <option key={pu.puNumber} value={pu.puNumber}>
+                    {pu.puNumber} — {pu.puName} ({pu.registeredVoters} voters)
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
 
+          {/* ACTIVE SELECTED POLLING UNIT SUMMARY CARD */}
           <div>
             <div className="flex items-center justify-between mb-3">
               <h3 className="text-sm font-bold text-ink uppercase tracking-wider">
-                Available Real Polling Units ({pollingUnits.length})
+                Selected Polling Unit Details
               </h3>
               <span className="text-xs text-leaf font-semibold flex items-center gap-1">
-                <MapPin className="size-3" /> {state.replace("_", " ")} &gt; {lga}
+                <MapPin className="size-3.5" /> {state} &gt; {lga} &gt; {ward}
               </span>
             </div>
 
-            <div className="grid gap-3">
-              {pollingUnits.map((pu) => {
-                const isSelected = selectedPu?.puNumber === pu.puNumber || (!selectedPu && pu === pollingUnits[0]);
-                return (
-                  <button
-                    key={pu.puNumber}
-                    type="button"
-                    onClick={() => setSelectedPu(pu)}
-                    className={`p-4 rounded-2xl border text-left transition-all relative ${
-                      isSelected
-                        ? "border-leaf bg-leaf-soft/50 ring-2 ring-leaf/30 shadow-md"
-                        : "border-line bg-paper hover:border-leaf/40"
-                    }`}
-                  >
-                    <div className="flex items-start justify-between gap-3">
-                      <div>
-                        <span className="inline-block px-2.5 py-0.5 rounded-md bg-ink text-paper text-xs font-mono font-bold tracking-wider mb-1.5">
-                          {pu.puNumber}
-                        </span>
-                        <h4 className="font-semibold text-ink text-base">{pu.puName}</h4>
-                        <p className="text-xs text-muted mt-1">
-                          Ward: {pu.ward} · Capacity: {pu.registeredVoters} Registered Voters
-                        </p>
-                      </div>
-                      {isSelected && (
-                        <CheckCircle2 className="size-5 text-leaf shrink-0 mt-1" />
-                      )}
-                    </div>
-                  </button>
-                );
-              })}
+            <div className="p-4 rounded-2xl border border-leaf bg-leaf-soft/50 ring-2 ring-leaf/30 shadow-md">
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <span className="inline-block px-2.5 py-0.5 rounded-md bg-ink text-paper text-xs font-mono font-bold tracking-wider mb-1.5">
+                    {currentSelectedPu.puNumber}
+                  </span>
+                  <h4 className="font-bold text-ink text-base sm:text-lg">{currentSelectedPu.puName}</h4>
+                  <p className="text-xs text-muted mt-1">
+                    State: <strong>{state}</strong> · LGA: <strong>{lga}</strong> · Ward: <strong>{ward}</strong> · Capacity: <strong>{currentSelectedPu.registeredVoters} Registered Voters</strong>
+                  </p>
+                </div>
+                <CheckCircle2 className="size-6 text-leaf shrink-0 mt-1" />
+              </div>
             </div>
           </div>
 
@@ -404,13 +448,13 @@ export function VoterRegistrationModal({ onComplete }: RegistrationFormProps) {
                   </div>
                   <div>
                     <span className="text-[9px] text-emerald-200/80 uppercase tracking-wider block">Delimitation</span>
-                    <p className="text-[11px] font-mono font-bold text-emerald-100 truncate">{selectedPu?.puNumber || "PU-01"}</p>
+                    <p className="text-[11px] font-mono font-bold text-emerald-100 truncate">{currentSelectedPu.puNumber}</p>
                   </div>
                 </div>
                 <div>
                   <span className="text-[9px] text-emerald-200/80 uppercase tracking-wider block">Polling Unit</span>
                   <p className="text-[10px] text-emerald-100 font-medium truncate">
-                    {selectedPu?.puName || "Ward 01 Town Hall"}
+                    {currentSelectedPu.puName}
                   </p>
                 </div>
               </div>
