@@ -222,18 +222,21 @@ export function ElectionGame() {
       return;
     }
 
-    if (tile.type === "property" && typeof tile.activityIndex === "number") {
-      // Find matching activity
-      if (currentPhase === "voting_time") {
-        const mappedIdx = Math.min(tile.activityIndex, VOTING_TIME_ACTIVITIES.length - 1);
-        setCurrentActivityIndex(mappedIdx);
-      } else {
-        const postIdx = Math.max(0, tile.activityIndex - 5);
-        setCurrentActivityIndex(Math.min(postIdx, POST_VOTING_ACTIVITIES.length - 1));
+    if (tile.type === "property" && (typeof tile.activityIndex === "number" || tile.id)) {
+      // Find matching activity by id first, then fallback to activityIndex
+      const pool = currentPhase === "voting_time" ? VOTING_TIME_ACTIVITIES : POST_VOTING_ACTIVITIES;
+      let matchedIdx = pool.findIndex((a) => a.id === tile.id);
+      if (matchedIdx === -1) {
+        if (typeof tile.activityIndex === "number") {
+          matchedIdx = Math.min(tile.activityIndex, pool.length - 1);
+        } else {
+          matchedIdx = 0;
+        }
       }
+      setCurrentActivityIndex(matchedIdx);
       setTimeout(() => {
         setScreen("decision");
-      }, 400);
+      }, 350);
     } else if (tile.type === "chance") {
       const isReward = Math.random() > 0.4;
       if (isReward) {
@@ -246,7 +249,8 @@ export function ElectionGame() {
         triggerMoneySplash(fine, "loss", "Fuel & Queue Logistics Expense");
       }
     } else if (tile.id === "jail" || tile.id === "arrest_corner") {
-      setBoardTileIdx(4);
+      const jailTileIdx = Math.max(0, NAIJA_BOARD_TILES.findIndex((b) => b.id === "jail"));
+      setBoardTileIdx(jailTileIdx);
       setWallet((w) => Math.max(0, w - 2000));
       triggerMoneySplash(2000, "loss", "Electoral Offence Investigation Fine");
     }
