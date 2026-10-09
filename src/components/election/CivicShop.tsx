@@ -192,7 +192,7 @@ export function CivicEconomyHub({
       )}
 
       {/* Tabs */}
-      <div className="flex items-center gap-2 border-b border-line pb-3 mb-5">
+      <div className="flex flex-wrap items-center gap-2 border-b border-line pb-3 mb-5">
         <button
           type="button"
           onClick={() => setActiveTab("market")}

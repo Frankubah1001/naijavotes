@@ -187,7 +187,7 @@ export function BallotBoothModal({
               </div>
             </div>
 
-            <div className="flex items-center justify-between pt-3 border-t border-line">
+            <div className="flex flex-col-reverse gap-3 pt-3 border-t border-line sm:flex-row sm:items-center sm:justify-between">
               <span className="text-xs text-muted">
                 {selectedParty ? `Selected: ${selectedParty.code}` : "Click a party to thumbprint"}
               </span>
@@ -196,7 +196,7 @@ export function BallotBoothModal({
                 type="button"
                 onClick={handleThumbprint}
                 disabled={!selectedParty}
-                className={`px-6 py-3 rounded-full font-bold text-xs flex items-center gap-2 transition-all ${selectedParty
+                className={`w-full justify-center whitespace-nowrap px-5 sm:px-6 py-3 rounded-full font-bold text-xs flex items-center gap-2 transition-all sm:w-auto ${selectedParty
                   ? "bg-stamp hover:bg-stamp/90 text-paper shadow-lg shadow-stamp/25 active:scale-95"
                   : "bg-line text-muted cursor-not-allowed"
                   }`}
@@ -241,7 +241,7 @@ export function BallotBoothModal({
             <button
               type="button"
               onClick={handleFinalCast}
-              className="px-8 py-3.5 rounded-full bg-leaf hover:bg-leaf/90 text-paper font-extrabold text-sm shadow-xl shadow-leaf/30 flex items-center gap-2 mx-auto active:scale-95"
+              className="mx-auto flex w-full items-center justify-center gap-2 px-6 sm:px-8 py-3.5 rounded-full bg-leaf hover:bg-leaf/90 text-paper font-extrabold text-sm shadow-xl shadow-leaf/30 active:scale-95 sm:w-auto"
             >
               <Vote className="size-5" /> Cast Ballot & Return to Board
             </button>

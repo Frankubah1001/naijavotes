@@ -413,7 +413,9 @@ export function ElectionGame() {
 
         {/* Player Wallet & Actions Header */}
         {voter && screen !== "register" && (
-          <div className="flex items-center flex-wrap gap-2 pt-2 md:pt-0 border-t md:border-t-0 border-slate-800">
+          <div className="flex w-full flex-wrap items-center gap-2 pt-2 border-t border-slate-800 md:w-auto md:pt-0 md:border-t-0">
+            {/* Status cluster: wallet + vote state (wraps as one unit on mobile) */}
+            <div className="flex items-center gap-2">
             {/* Realtime Animated Wallet */}
             <div className="px-2.5 sm:px-3 py-1.5 rounded-2xl bg-[#08281a] border-2 border-[#008751] text-emerald-300 font-mono font-black text-xs sm:text-sm flex items-center gap-1.5 shadow-lg">
               <Coins className="size-3.5 sm:size-4 text-amber-400" />
@@ -447,6 +449,10 @@ export function ElectionGame() {
               </div>
             )}
 
+            </div>
+
+            {/* Action cluster: rigging/market/avatar (wraps as one unit on mobile) */}
+            <div className="flex items-center gap-2 sm:ml-auto">
             {/* Emergency Rigging Report Trigger Button: Only visible if activity has a rigging scenario */}
             {isCurrentActivityRiggingRelated && (
               <button
@@ -463,6 +469,7 @@ export function ElectionGame() {
             <button
               type="button"
               onClick={() => setScreen("market")}
+              title="Open Civic Market"
               className={`px-2.5 py-1.5 rounded-xl border text-xs font-bold flex items-center gap-1 transition-all ${
                 screen === "market"
                   ? "bg-[#008751] text-white border-emerald-400 font-black"
@@ -474,7 +481,7 @@ export function ElectionGame() {
             </button>
 
             {/* Voter Avatar & Info */}
-            <div className="flex items-center gap-2 pl-2 border-l border-slate-700">
+            <div className="flex items-center gap-2 sm:pl-2 sm:border-l sm:border-slate-700">
               <div className="size-8 rounded-full bg-slate-800 border border-slate-600 flex items-center justify-center overflow-hidden">
                 <Avatar3D avatar={currentAvatar} size={32} interactive={false} animated={false} />
               </div>
@@ -489,6 +496,7 @@ export function ElectionGame() {
                 <LogOut className="size-3.5" />
                 <span className="hidden lg:inline">Logout</span>
               </button>
+            </div>
             </div>
           </div>
         )}
@@ -575,7 +583,7 @@ export function ElectionGame() {
             <button
               type="button"
               onClick={() => setScreen("board")}
-              className="text-xs font-bold text-white bg-slate-800/80 hover:bg-slate-700 px-3 py-2 rounded-xl border border-slate-600 flex items-center gap-1.5 shadow-sm active:scale-95"
+              className="whitespace-nowrap text-xs font-bold text-white bg-slate-800/80 hover:bg-slate-700 px-3 py-2 rounded-xl border border-slate-600 flex items-center gap-1.5 shadow-sm active:scale-95"
             >
               ← Back to Election Board
             </button>
@@ -683,7 +691,7 @@ export function ElectionGame() {
               </div>
             )}
 
-            <div className="flex items-center justify-between border-b border-slate-200 pb-3 mb-4">
+            <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 border-b border-slate-200 pb-3 mb-4">
               <span className="text-xs font-black tracking-widest text-[#008751] uppercase">
                 Recorded Civic Action · {currentActivity.title}
               </span>
@@ -703,7 +711,7 @@ export function ElectionGame() {
                 />
               </div>
               <div>
-                <h3 className="font-display text-2xl font-black text-slate-900">{pending.label}</h3>
+                <h3 className="font-display text-xl sm:text-2xl font-black text-slate-900">{pending.label}</h3>
                 <p className="text-xs text-slate-500">{currentActivity.place}</p>
               </div>
             </div>
@@ -731,7 +739,7 @@ export function ElectionGame() {
               </div>
             </dl>
 
-            <div className="flex items-center justify-between pt-4 border-t border-slate-200">
+            <div className="flex flex-col-reverse gap-3 pt-4 border-t border-slate-200 sm:flex-row sm:items-center sm:justify-between">
               <span className="text-xs text-slate-500">
                 {currentPhase === "voting_time"
                   ? isVoteEligible
@@ -743,7 +751,7 @@ export function ElectionGame() {
               <button
                 type="button"
                 onClick={handleAdvanceFromBeat}
-                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-[#008751] hover:bg-emerald-700 font-black text-sm text-white shadow-xl shadow-emerald-950/40 active:scale-95 transition-transform"
+                className="inline-flex w-full items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-[#008751] hover:bg-emerald-700 font-black text-sm text-white shadow-xl shadow-emerald-950/40 active:scale-95 transition-transform sm:w-auto sm:px-7"
               >
                 {isVoteEligible && !hasVoted
                   ? "Enter Ballot Booth to Vote 👉"
@@ -760,15 +768,15 @@ export function ElectionGame() {
       {/* VIEW 5: CIVIC MARKET & FINES */}
       {screen === "market" && (
         <div className="space-y-4">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <button
               type="button"
               onClick={() => setScreen("board")}
-              className="text-xs font-bold text-white bg-slate-800/80 hover:bg-slate-700 px-3.5 py-1.5 rounded-lg border border-slate-600 flex items-center gap-1.5"
+              className="self-start whitespace-nowrap text-xs font-bold text-white bg-slate-800/80 hover:bg-slate-700 px-3.5 py-2 rounded-lg border border-slate-600 flex items-center gap-1.5"
             >
               ← Back to Election Board
             </button>
-            <span className="text-xs text-emerald-300">
+            <span className="text-xs text-emerald-300 sm:text-right">
               Buy pure water, glucose snacks, power banks and observer kits to sustain your election journey!
             </span>
           </div>

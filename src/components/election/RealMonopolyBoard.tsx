@@ -259,7 +259,9 @@ export function RealMonopolyBoard({
                         className="px-2 sm:px-3.5 py-1 sm:py-2 rounded-lg sm:rounded-xl bg-[#0e3b25] hover:bg-[#072416] text-white text-[9px] sm:text-xs font-bold flex items-center gap-1 sm:gap-1.5 shadow-lg transition-transform active:scale-95 border border-emerald-500/30"
                       >
                         <ShoppingBag className="size-3 sm:size-3.5 text-amber-400" />
-                        <span>Market (₦{walletBalance.toLocaleString()})</span>
+                        <span>
+                          Market <span className="hidden sm:inline">(₦{walletBalance.toLocaleString()})</span>
+                        </span>
                       </button>
 
                       {/* Vote Booth CTA button: Only when exactly 4 correct voting activities achieved */}
@@ -280,9 +282,10 @@ export function RealMonopolyBoard({
                           type="button"
                           onClick={onTriggerSecurityReport}
                           className="px-2 sm:px-3.5 py-1 sm:py-2 rounded-lg sm:rounded-xl bg-red-700 hover:bg-red-600 text-white text-[9px] sm:text-xs font-black flex items-center gap-1 sm:gap-1.5 shadow-lg active:scale-95 border border-red-400 animate-pulse"
+                          title="Report Rigging to the Joint Security Taskforce"
                         >
                           <Siren className="size-3 sm:size-3.5 text-amber-300" />
-                          <span>Report Rigging 🚨</span>
+                          <span className="hidden sm:inline">Report Rigging 🚨</span>
                         </button>
                       )}
                     </div>
@@ -325,7 +328,7 @@ export function RealMonopolyBoard({
                   <div className="absolute inset-0 flex flex-col items-center justify-center z-40 pointer-events-none bg-emerald-500/20 backdrop-blur-[1px] rounded-xl animate-bounce">
                     <Avatar3D
                       avatar={playerAvatar}
-                      size={52}
+                      size={46}
                       interactive={false}
                       animated={true}
                       actionState={isMovingAvatar ? "walking" : "idle"}
