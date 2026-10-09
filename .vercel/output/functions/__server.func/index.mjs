@@ -443,9 +443,14 @@ async function grokPwaMiddleware(event, next) {
 		} });
 	}
 	if (!isDocumentPath(path)) return next();
-	const result = await next();
-	if (result instanceof Response && result.body && String(result.headers.get("content-type") ?? "").includes("text/html") && !result.headers.get("content-encoding")) return injectHeadStreaming(result, requestHost(event));
-	return result;
+	try {
+		const result = await next();
+		if (result instanceof Response && result.body && String(result.headers.get("content-type") ?? "").includes("text/html") && !result.headers.get("content-encoding")) return injectHeadStreaming(result, requestHost(event));
+		return result;
+	} catch (err) {
+		console.error("[grok-pwa] error in next():", err);
+		throw err;
+	}
 }
 //#endregion
 //#region #nitro/virtual/routing
