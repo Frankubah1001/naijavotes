@@ -406,7 +406,7 @@ export function ElectionGame() {
               )}
             </div>
             <h1 className="font-display text-xl sm:text-2xl font-black text-white leading-tight">
-              Polling Unit Day: Real-Time Election & Collation Game
+              Naija Votes: Real-Time Election & Collation Game
             </h1>
           </div>
         </div>

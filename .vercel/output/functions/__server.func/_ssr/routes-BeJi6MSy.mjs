@@ -1,7 +1,7 @@
 import { i as __toESM } from "../_runtime.mjs";
 import { K as require_react, b as require_jsx_runtime } from "../_libs/@tanstack/react-router+[...].mjs";
 import { A as CircleCheckBig, C as Dice3, D as CirclePlus, E as Coins, M as Check, N as Building2, O as CircleHelp, P as Award, S as Dice4, T as Dice1, _ as Lock, a as Sparkles, b as Dice6, c as Shield, d as Send, f as RotateCcw, g as LogOut, h as MapPin, i as TriangleAlert, j as ChevronRight, k as CircleCheck, l as ShieldCheck, m as Map, n as Vote, o as Siren, p as Radio, r as UserCheck, s as ShoppingBag, t as X, u as ShieldAlert, v as IdCard, w as Dice2, x as Dice5, y as Fingerprint } from "../_libs/lucide-react.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/routes-DmquA36x.js
+//#region node_modules/.nitro/vite/services/ssr/assets/routes-BeJi6MSy.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 var VOTING_TIME_ACTIVITIES = [
@@ -4254,7 +4254,7 @@ function ElectionGame() {
 						})]
 					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h1", {
 						className: "font-display text-xl sm:text-2xl font-black text-white leading-tight",
-						children: "Polling Unit Day: Real-Time Election & Collation Game"
+						children: "Naija Votes: Real-Time Election & Collation Game"
 					})] })]
 				}), voter && screen !== "register" && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 					className: "flex items-center gap-2",
