@@ -193,78 +193,89 @@ export function DynamicActivityStage({
       </div>
 
       {/* INTERACTIVE STAGE BATTLEGROUND */}
-      <div className="relative h-48 sm:h-56 flex items-center justify-between px-4 sm:px-12 border-2 border-dashed border-slate-700/60 rounded-2xl bg-black/40 backdrop-blur-sm overflow-hidden">
+      <div className="relative min-h-[160px] sm:h-56 flex items-center justify-between px-2 sm:px-12 py-3 border-2 border-dashed border-slate-700/60 rounded-2xl bg-black/40 backdrop-blur-sm overflow-hidden">
         
         {/* LEFT SIDE: VOTER (AVATAR + CIVIC SHIELD) */}
-        <div className="relative flex flex-col items-center z-20">
-          <div className={`transition-all duration-500 rounded-full p-2 ${
+        <div className="relative flex flex-col items-center shrink-0 z-20">
+          <div className={`transition-all duration-500 rounded-full p-1 sm:p-2 ${
             isRepelled
-              ? "bg-emerald-500/30 ring-8 ring-emerald-400/50 scale-110 shadow-2xl shadow-emerald-500"
+              ? "bg-emerald-500/30 ring-4 sm:ring-8 ring-emerald-400/50 scale-105 sm:scale-110 shadow-2xl shadow-emerald-500"
               : isCompromised
-                ? "bg-red-600/20 ring-4 ring-red-500/40"
+                ? "bg-red-600/20 ring-2 sm:ring-4 ring-red-500/40"
                 : "bg-slate-800/40 ring-2 ring-emerald-400/20"
           }`}>
-            <Avatar3D
-              avatar={avatar}
-              size={110}
-              interactive={false}
-              animated={true}
-              actionState={isRepelled ? "celebrating" : isCompromised ? "fined" : "walking"}
-            />
+            <div className="sm:hidden">
+              <Avatar3D
+                avatar={avatar}
+                size={70}
+                interactive={false}
+                animated={true}
+                actionState={isRepelled ? "celebrating" : isCompromised ? "fined" : "walking"}
+              />
+            </div>
+            <div className="hidden sm:block">
+              <Avatar3D
+                avatar={avatar}
+                size={110}
+                interactive={false}
+                animated={true}
+                actionState={isRepelled ? "celebrating" : isCompromised ? "fined" : "walking"}
+              />
+            </div>
           </div>
 
           {isRepelled && (
-            <div className="absolute -top-3 -right-3 size-10 rounded-full bg-[#008751] text-white flex items-center justify-center text-xl shadow-2xl animate-spin border-2 border-emerald-300">
+            <div className="absolute -top-2 -right-2 sm:-top-3 sm:-right-3 size-7 sm:size-10 rounded-full bg-[#008751] text-white flex items-center justify-center text-sm sm:text-xl shadow-2xl animate-spin border-2 border-emerald-300">
               🛡️
             </div>
           )}
 
-          <span className="mt-2 text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full bg-[#008751] text-white tracking-wider shadow-md">
+          <span className="mt-1 sm:mt-2 text-[8px] sm:text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-[#008751] text-white tracking-wider shadow-md whitespace-nowrap">
             VOTER (YOU)
           </span>
         </div>
 
         {/* CENTER INTERACTION FORCEFIELD */}
-        <div className="flex flex-col items-center justify-center text-center px-2 z-10">
+        <div className="flex flex-col items-center justify-center text-center px-1 sm:px-2 z-10 shrink min-w-0">
           {isRepelled ? (
             <div className="flex flex-col items-center animate-bounce">
-              <span className="text-4xl sm:text-5xl">⚡ 💥 🛡️</span>
-              <span className="mt-1 text-xs font-black text-emerald-300 uppercase tracking-widest bg-emerald-950/80 px-3 py-1 rounded-full border border-emerald-400">
+              <span className="text-2xl sm:text-5xl">⚡ 💥 🛡️</span>
+              <span className="mt-1 text-[9px] sm:text-xs font-black text-emerald-300 uppercase tracking-wider bg-emerald-950/80 px-2 sm:px-3 py-0.5 sm:py-1 rounded-full border border-emerald-400 whitespace-nowrap">
                 THREAT REPELLED!
               </span>
             </div>
           ) : isCompromised ? (
             <div className="flex flex-col items-center">
-              <span className="text-4xl animate-pulse">💸 ⚠️ 🚨</span>
-              <span className="mt-1 text-xs font-black text-red-400 uppercase tracking-widest bg-red-950/80 px-3 py-1 rounded-full border border-red-500">
+              <span className="text-2xl sm:text-4xl animate-pulse">💸 ⚠️ 🚨</span>
+              <span className="mt-1 text-[9px] sm:text-xs font-black text-red-400 uppercase tracking-wider bg-red-950/80 px-2 sm:px-3 py-0.5 sm:py-1 rounded-full border border-red-500 whitespace-nowrap">
                 COMPROMISED!
               </span>
             </div>
           ) : (
             <div className="flex flex-col items-center">
-              <div className="flex items-center gap-1 text-2xl animate-pulse text-amber-400">
+              <div className="flex items-center gap-1 text-base sm:text-2xl animate-pulse text-amber-400">
                 <span>⚡</span>
-                <span className="text-sm font-bold text-slate-300">Approaching</span>
+                <span className="text-xs sm:text-sm font-bold text-slate-300">Approaching</span>
                 <span>⚡</span>
               </div>
-              <span className="text-[10px] text-slate-400 font-medium">Select the right civic action to repel</span>
+              <span className="text-[8px] sm:text-[10px] text-slate-400 font-medium text-center line-clamp-2">Select right civic action</span>
             </div>
           )}
         </div>
 
         {/* RIGHT SIDE: APPROACHING THREAT ACTORS */}
-        <div className={`relative flex flex-col items-center z-20 transition-all duration-700 ${
+        <div className={`relative flex flex-col items-center shrink-0 z-20 transition-all duration-700 ${
           isRepelled
-            ? "translate-x-32 opacity-20 rotate-45 scale-75"
+            ? "translate-x-12 sm:translate-x-32 opacity-20 rotate-45 scale-75"
             : isCompromised
-              ? "translate-x-[-20px] scale-110"
+              ? "translate-x-[-10px] sm:translate-x-[-20px] scale-105 sm:scale-110"
               : "translate-x-0 animate-pulse"
         }`}>
-          <div className="flex items-center gap-1.5 p-3 rounded-2xl bg-slate-900/90 border-2 border-red-500/60 shadow-xl">
+          <div className="flex items-center gap-1 sm:gap-1.5 p-1.5 sm:p-3 rounded-2xl bg-slate-900/90 border-2 border-red-500/60 shadow-xl">
             {scenario.threatActors.map((actor, idx) => (
               <span
                 key={idx}
-                className={`text-3xl sm:text-4xl transform transition-transform ${
+                className={`text-xl sm:text-4xl transform transition-transform ${
                   isRepelled ? "rotate-180 scale-50" : `hover:scale-125 animate-bounce delay-${idx * 100}`
                 }`}
               >
@@ -273,8 +284,8 @@ export function DynamicActivityStage({
             ))}
           </div>
 
-          <span className="mt-2 text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full bg-red-700 text-white tracking-wider shadow-md">
-            {isRepelled ? "REPELLED" : "APPROACHING THREAT"}
+          <span className="mt-1 sm:mt-2 text-[8px] sm:text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-red-700 text-white tracking-wider shadow-md whitespace-nowrap">
+            {isRepelled ? "REPELLED" : "THREAT"}
           </span>
         </div>
       </div>

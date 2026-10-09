@@ -389,23 +389,23 @@ export function ElectionGame() {
       <MoneySplashOverlay effects={moneyEffects} />
 
       {/* Top Green Navigation Bar */}
-      <header className="mb-4 flex flex-wrap items-center justify-between gap-3 p-3 sm:p-4 rounded-3xl bg-slate-900/95 border-2 border-emerald-500/50 text-white shadow-2xl backdrop-blur-md">
+      <header className="mb-4 flex flex-col md:flex-row md:items-center justify-between gap-3 p-3 sm:p-4 rounded-3xl bg-slate-900/95 border-2 border-emerald-500/50 text-white shadow-2xl backdrop-blur-md">
         <div className="flex items-center gap-3">
-          <div className="size-11 rounded-2xl bg-gradient-to-tr from-[#008751] to-emerald-400 text-slate-950 flex items-center justify-center font-black text-xl shadow-lg border border-white/20">
+          <div className="size-10 sm:size-11 shrink-0 rounded-2xl bg-gradient-to-tr from-[#008751] to-emerald-400 text-slate-950 flex items-center justify-center font-black text-xl shadow-lg border border-white/20">
             ₦
           </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="text-[10px] font-black tracking-widest text-emerald-300 uppercase px-2 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-400/30">
+          <div className="min-w-0">
+            <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
+              <span className="text-[9px] sm:text-[10px] font-black tracking-wider text-emerald-300 uppercase px-2 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-400/30">
                 NAIJA ELECTION 2027 · {currentPhase === "voting_time" ? `PHASE 1 (${correctVotingActivitiesCount}/4 CORRECT TO VOTE)` : "PHASE 2 (COLLATION GUARDING)"}
               </span>
               {voter && (
-                <span className="text-xs text-emerald-300 font-mono">
+                <span className="text-[10px] sm:text-xs text-emerald-300 font-mono">
                   {voter.pollingUnit.puNumber}
                 </span>
               )}
             </div>
-            <h1 className="font-display text-xl sm:text-2xl font-black text-white leading-tight">
+            <h1 className="font-display text-lg sm:text-2xl font-black text-white leading-tight mt-0.5">
               Naija Votes: Real-Time Election & Collation Game
             </h1>
           </div>
@@ -413,10 +413,10 @@ export function ElectionGame() {
 
         {/* Player Wallet & Actions Header */}
         {voter && screen !== "register" && (
-          <div className="flex items-center gap-2">
+          <div className="flex items-center flex-wrap gap-2 pt-2 md:pt-0 border-t md:border-t-0 border-slate-800">
             {/* Realtime Animated Wallet */}
-            <div className="px-3 py-1.5 rounded-2xl bg-[#08281a] border-2 border-[#008751] text-emerald-300 font-mono font-black text-xs sm:text-sm flex items-center gap-1.5 shadow-lg">
-              <Coins className="size-4 text-amber-400" />
+            <div className="px-2.5 sm:px-3 py-1.5 rounded-2xl bg-[#08281a] border-2 border-[#008751] text-emerald-300 font-mono font-black text-xs sm:text-sm flex items-center gap-1.5 shadow-lg">
+              <Coins className="size-3.5 sm:size-4 text-amber-400" />
               <span>₦{wallet.toLocaleString()}</span>
             </div>
 
@@ -431,7 +431,7 @@ export function ElectionGame() {
                     triggerMoneySplash(0, "loss", `Roll dice & complete ${REQUIRED_CORRECT_VOTING_ACTIVITIES - correctVotingActivitiesCount} more correct actions to vote!`);
                   }
                 }}
-                className={`px-3.5 py-1.5 rounded-xl text-xs font-black flex items-center gap-1.5 shadow-lg transition-all ${
+                className={`px-3 py-1.5 rounded-xl text-xs font-black flex items-center gap-1.5 shadow-lg transition-all ${
                   isVoteEligible
                     ? "bg-red-600 hover:bg-red-500 text-white animate-bounce shadow-red-900/60 ring-2 ring-amber-300"
                     : "bg-slate-800 text-slate-400 border border-slate-700"
@@ -452,7 +452,7 @@ export function ElectionGame() {
               <button
                 type="button"
                 onClick={() => setShowRiggingModal(true)}
-                className="px-3 py-1.5 rounded-xl bg-red-700 hover:bg-red-600 text-white text-xs font-bold flex items-center gap-1 shadow-lg shadow-red-950/50 active:scale-95 border border-red-400 animate-pulse"
+                className="px-2.5 sm:px-3 py-1.5 rounded-xl bg-red-700 hover:bg-red-600 text-white text-xs font-bold flex items-center gap-1 shadow-lg shadow-red-950/50 active:scale-95 border border-red-400 animate-pulse"
                 title="Report Rigging & Electoral Infractions to Joint Security Taskforce"
               >
                 <Siren className="size-3.5 text-amber-300" />
@@ -470,7 +470,7 @@ export function ElectionGame() {
               }`}
             >
               <ShoppingBag className="size-3.5 text-amber-400" />
-              <span className="hidden md:inline">Market</span>
+              <span className="hidden sm:inline">Market</span>
             </button>
 
             {/* Voter Avatar & Info */}
@@ -571,11 +571,11 @@ export function ElectionGame() {
       {/* VIEW 3: TILE DECISION CHALLENGE WITH MOVING THREAT ICONS STAGE */}
       {screen === "decision" && currentActivity && (
         <div className="max-w-3xl mx-auto space-y-4">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between gap-2 flex-wrap">
             <button
               type="button"
               onClick={() => setScreen("board")}
-              className="text-xs font-bold text-white bg-slate-800/80 hover:bg-slate-700 px-3 py-1.5 rounded-lg border border-slate-600 flex items-center gap-1.5"
+              className="text-xs font-bold text-white bg-slate-800/80 hover:bg-slate-700 px-3 py-2 rounded-xl border border-slate-600 flex items-center gap-1.5 shadow-sm active:scale-95"
             >
               ← Back to Election Board
             </button>
@@ -585,10 +585,11 @@ export function ElectionGame() {
               <button
                 type="button"
                 onClick={() => setShowRiggingModal(true)}
-                className="px-3 py-1.5 rounded-xl bg-red-700 hover:bg-red-600 text-white text-xs font-black flex items-center gap-1.5 shadow-lg border border-red-400 active:scale-95 animate-pulse"
+                className="px-3 py-2 rounded-xl bg-red-700 hover:bg-red-600 text-white text-xs font-black flex items-center gap-1.5 shadow-lg border border-red-400 active:scale-95 animate-pulse"
               >
                 <Siren className="size-3.5 text-amber-300" />
-                Report Rigging to Police & EFCC
+                <span>Report Rigging</span>
+                <span className="hidden sm:inline">to Police & EFCC</span>
               </button>
             )}
           </div>
@@ -601,13 +602,13 @@ export function ElectionGame() {
             isCompromised={false}
           />
 
-          <section className="rounded-3xl border-4 border-slate-900 bg-white p-6 sm:p-8 shadow-2xl relative overflow-hidden">
+          <section className="rounded-3xl border-4 border-slate-900 bg-white p-4 sm:p-8 shadow-2xl relative overflow-hidden">
             {/* Header */}
-            <div className="bg-[#008751] -mx-6 -mt-6 sm:-mx-8 sm:-mt-8 p-4 text-center text-white border-b-4 border-black">
+            <div className="bg-[#008751] -mx-4 -mt-4 sm:-mx-8 sm:-mt-8 p-4 text-center text-white border-b-4 border-black">
               <span className="text-[10px] font-mono uppercase tracking-widest text-emerald-100">
                 {currentPhase === "voting_time" ? "VOTING TIME ENCOUNTER" : "POST-VOTING COLLATION & COUNT"}
               </span>
-              <h2 className="font-display text-2xl sm:text-3xl font-black">{currentActivity.title}</h2>
+              <h2 className="font-display text-xl sm:text-3xl font-black">{currentActivity.title}</h2>
               <p className="text-xs text-emerald-100 mt-0.5">{currentActivity.place}</p>
             </div>
 

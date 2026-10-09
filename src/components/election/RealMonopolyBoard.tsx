@@ -210,9 +210,9 @@ export function RealMonopolyBoard({
   ];
 
   return (
-    <div className="w-full max-w-5xl mx-auto rounded-3xl border-8 border-[#133c2a] bg-[#d3ebd9] shadow-2xl p-3 sm:p-5 select-none relative overflow-hidden font-sans">
+    <div className="w-full max-w-5xl mx-auto rounded-2xl sm:rounded-3xl border-4 sm:border-8 border-[#133c2a] bg-[#d3ebd9] shadow-2xl p-1.5 sm:p-5 select-none relative overflow-hidden font-sans">
       {/* 5x5 BOARD GRID */}
-      <div className="grid grid-cols-5 grid-rows-5 gap-1.5 sm:gap-2 aspect-square max-h-[760px] w-full mx-auto relative bg-[#e7f5ec] rounded-2xl p-1.5 sm:p-2 border-2 border-[#133c2a] shadow-inner">
+      <div className="grid grid-cols-5 grid-rows-5 gap-1 sm:gap-2 aspect-square max-h-[760px] w-full mx-auto relative bg-[#e7f5ec] rounded-xl sm:rounded-2xl p-1 sm:p-2 border-2 border-[#133c2a] shadow-inner">
         {gridTileMap.map((row, rIdx) =>
           row.map((tileIndex, cIdx) => {
             if (tileIndex === null) {
@@ -220,46 +220,46 @@ export function RealMonopolyBoard({
                 return (
                   <div
                     key="center-board"
-                    className="col-span-3 row-span-3 rounded-2xl bg-gradient-to-br from-[#d4eadc] via-[#bce0c9] to-[#99c7aa] border-4 border-[#0e3b25] p-3 sm:p-5 flex flex-col items-center justify-between shadow-xl relative overflow-hidden"
+                    className="col-span-3 row-span-3 rounded-xl sm:rounded-2xl bg-gradient-to-br from-[#d4eadc] via-[#bce0c9] to-[#99c7aa] border-2 sm:border-4 border-[#0e3b25] p-1.5 sm:p-5 flex flex-col items-center justify-between shadow-xl relative overflow-hidden"
                   >
                     {/* Watermark Logo */}
                     <div className="absolute inset-0 flex items-center justify-center opacity-10 pointer-events-none">
-                      <span className="text-8xl font-black rotate-[-25deg] text-[#008751]">
+                      <span className="text-5xl sm:text-8xl font-black rotate-[-25deg] text-[#008751]">
                         NAIJA
                       </span>
                     </div>
 
                     {/* Center Header */}
-                    <div className="text-center z-10">
-                      <div className="inline-flex items-center gap-1.5 px-4 py-1 rounded-full bg-[#008751] text-white font-black text-xs sm:text-sm tracking-widest uppercase shadow-lg border border-emerald-300">
-                        <span>★ {phase === "voting_time" ? "PHASE 1: VOTING TIME ENCOUNTERS" : "PHASE 2: COLLATION & RESULTS GUARDING"} ★</span>
+                    <div className="text-center z-10 w-full px-1">
+                      <div className="inline-flex items-center gap-1 px-2 sm:px-4 py-0.5 sm:py-1 rounded-full bg-[#008751] text-white font-black text-[8px] sm:text-sm tracking-wider uppercase shadow-lg border border-emerald-300">
+                        <span className="truncate">★ {phase === "voting_time" ? "PHASE 1: VOTING TIME" : "PHASE 2: COLLATION"} ★</span>
                       </div>
-                      <h2 className="font-display text-xl sm:text-3xl font-extrabold text-[#0d2a1b] mt-1 tracking-tight">
+                      <h2 className="font-display text-xs sm:text-3xl font-extrabold text-[#0d2a1b] mt-0.5 sm:mt-1 tracking-tight truncate">
                         ELECTION DAY BOARD: 2027
                       </h2>
-                      <div className="flex items-center justify-center gap-2 mt-1">
-                        <span className="text-[10px] sm:text-xs font-extrabold px-3 py-0.5 rounded-full bg-slate-900 text-white shadow-sm">
+                      <div className="flex items-center justify-center gap-1 sm:gap-2 mt-0.5 sm:mt-1">
+                        <span className="text-[7px] sm:text-xs font-extrabold px-1.5 sm:px-3 py-0.5 rounded-full bg-slate-900 text-white shadow-sm truncate">
                           {phase === "voting_time"
-                            ? `Correct Civic Actions: ${correctAnswersCount}/4 Needed to Vote`
-                            : "Escorting Collation & Guarding Results"}
+                            ? `Actions: ${correctAnswersCount}/4 Needed`
+                            : "Guarding Results"}
                         </span>
                       </div>
                     </div>
 
                     {/* 3D Rolling Dice & Player Controls */}
-                    <div className="my-1 z-10 flex flex-col items-center">
+                    <div className="my-0.5 sm:my-1 z-10 flex flex-col items-center">
                       <Real3DDice onRollComplete={onRollDice} />
                     </div>
 
                     {/* Center Action Buttons */}
-                    <div className="z-10 flex flex-wrap items-center justify-center gap-2 w-full">
+                    <div className="z-10 flex flex-wrap items-center justify-center gap-1 sm:gap-2 w-full">
                       <button
                         type="button"
                         onClick={onOpenMarket}
-                        className="px-3.5 py-2 rounded-xl bg-[#0e3b25] hover:bg-[#072416] text-white text-xs font-bold flex items-center gap-1.5 shadow-lg transition-transform active:scale-95 border border-emerald-500/30"
+                        className="px-2 sm:px-3.5 py-1 sm:py-2 rounded-lg sm:rounded-xl bg-[#0e3b25] hover:bg-[#072416] text-white text-[9px] sm:text-xs font-bold flex items-center gap-1 sm:gap-1.5 shadow-lg transition-transform active:scale-95 border border-emerald-500/30"
                       >
-                        <ShoppingBag className="size-3.5 text-amber-400" />
-                        Market (₦{walletBalance.toLocaleString()})
+                        <ShoppingBag className="size-3 sm:size-3.5 text-amber-400" />
+                        <span>Market (₦{walletBalance.toLocaleString()})</span>
                       </button>
 
                       {/* Vote Booth CTA button: Only when exactly 4 correct voting activities achieved */}
@@ -267,10 +267,10 @@ export function RealMonopolyBoard({
                         <button
                           type="button"
                           onClick={onOpenBallot}
-                          className="px-4 py-2 rounded-xl bg-red-600 hover:bg-red-500 text-white text-xs font-black flex items-center gap-1.5 shadow-xl shadow-red-900/60 animate-bounce active:scale-95 border-2 border-amber-300"
+                          className="px-2.5 sm:px-4 py-1 sm:py-2 rounded-lg sm:rounded-xl bg-red-600 hover:bg-red-500 text-white text-[9px] sm:text-xs font-black flex items-center gap-1 sm:gap-1.5 shadow-xl shadow-red-900/60 animate-bounce active:scale-95 border border-amber-300"
                         >
-                          <Vote className="size-4 text-white" />
-                          👉 STEP INTO BALLOT BOOTH NOW!
+                          <Vote className="size-3 sm:size-4 text-white" />
+                          <span>👉 VOTE NOW!</span>
                         </button>
                       )}
 
@@ -279,10 +279,10 @@ export function RealMonopolyBoard({
                         <button
                           type="button"
                           onClick={onTriggerSecurityReport}
-                          className="px-3.5 py-2 rounded-xl bg-red-700 hover:bg-red-600 text-white text-xs font-black flex items-center gap-1.5 shadow-lg active:scale-95 border border-red-400 animate-pulse"
+                          className="px-2 sm:px-3.5 py-1 sm:py-2 rounded-lg sm:rounded-xl bg-red-700 hover:bg-red-600 text-white text-[9px] sm:text-xs font-black flex items-center gap-1 sm:gap-1.5 shadow-lg active:scale-95 border border-red-400 animate-pulse"
                         >
-                          <Siren className="size-3.5 text-amber-300" />
-                          Report Rigging to Security 🚨
+                          <Siren className="size-3 sm:size-3.5 text-amber-300" />
+                          <span>Report Rigging 🚨</span>
                         </button>
                       )}
                     </div>
