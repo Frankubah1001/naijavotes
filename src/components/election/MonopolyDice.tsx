@@ -34,22 +34,22 @@ export function Real3DDice({ onRollComplete, disabled = false }: Real3DDiceProps
 
   const renderDiceFace = (val: number) => {
     switch (val) {
-      case 1: return <Dice1 className="size-8 sm:size-12 text-[#008751] drop-shadow" />;
-      case 2: return <Dice2 className="size-8 sm:size-12 text-slate-800 drop-shadow" />;
-      case 3: return <Dice3 className="size-8 sm:size-12 text-slate-800 drop-shadow" />;
-      case 4: return <Dice4 className="size-8 sm:size-12 text-slate-800 drop-shadow" />;
-      case 5: return <Dice5 className="size-8 sm:size-12 text-slate-800 drop-shadow" />;
-      default: return <Dice6 className="size-8 sm:size-12 text-[#008751] drop-shadow" />;
+      case 1: return <Dice1 className="size-6 sm:size-12 text-[#008751] drop-shadow" />;
+      case 2: return <Dice2 className="size-6 sm:size-12 text-slate-800 drop-shadow" />;
+      case 3: return <Dice3 className="size-6 sm:size-12 text-slate-800 drop-shadow" />;
+      case 4: return <Dice4 className="size-6 sm:size-12 text-slate-800 drop-shadow" />;
+      case 5: return <Dice5 className="size-6 sm:size-12 text-slate-800 drop-shadow" />;
+      default: return <Dice6 className="size-6 sm:size-12 text-[#008751] drop-shadow" />;
     }
   };
 
   return (
     <div className="flex flex-col items-center gap-2 sm:gap-3">
       {/* 3D Dice Pair */}
-      <div className="flex items-center gap-3 sm:gap-4">
+      <div className="flex items-center gap-2 sm:gap-4">
         {/* Die 1 */}
         <div
-          className={`size-11 sm:size-16 rounded-xl sm:rounded-2xl bg-gradient-to-br from-white via-slate-100 to-slate-200 border-2 border-emerald-600 shadow-xl flex items-center justify-center transition-all ${
+          className={`size-9 sm:size-16 rounded-xl sm:rounded-2xl bg-gradient-to-br from-white via-slate-100 to-slate-200 border-2 border-emerald-600 shadow-xl flex items-center justify-center transition-all ${
             isRolling ? "animate-spin scale-110 rotate-12" : "shadow-emerald-950/40"
           }`}
         >
@@ -58,7 +58,7 @@ export function Real3DDice({ onRollComplete, disabled = false }: Real3DDiceProps
 
         {/* Die 2 */}
         <div
-          className={`size-11 sm:size-16 rounded-xl sm:rounded-2xl bg-gradient-to-br from-white via-slate-100 to-slate-200 border-2 border-emerald-600 shadow-xl flex items-center justify-center transition-all ${
+          className={`size-9 sm:size-16 rounded-xl sm:rounded-2xl bg-gradient-to-br from-white via-slate-100 to-slate-200 border-2 border-emerald-600 shadow-xl flex items-center justify-center transition-all ${
             isRolling ? "animate-spin scale-110 -rotate-12" : "shadow-emerald-950/40"
           }`}
         >
@@ -70,7 +70,7 @@ export function Real3DDice({ onRollComplete, disabled = false }: Real3DDiceProps
         type="button"
         onClick={handleRoll}
         disabled={isRolling || disabled}
-        className={`px-4 sm:px-7 py-2 sm:py-3 rounded-xl sm:rounded-2xl font-black text-xs sm:text-sm uppercase tracking-wider shadow-xl flex items-center gap-1.5 sm:gap-2 transition-all active:scale-95 ${
+        className={`px-3 sm:px-7 py-2 sm:py-3 rounded-xl sm:rounded-2xl font-black text-[10px] sm:text-sm uppercase tracking-wider shadow-xl flex items-center gap-1 sm:gap-2 transition-all active:scale-95 ${
           disabled
             ? "bg-slate-700/60 text-slate-400 border border-slate-600 cursor-not-allowed"
             : isRolling

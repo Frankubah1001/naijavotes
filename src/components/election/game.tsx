@@ -383,7 +383,7 @@ export function ElectionGame() {
   const currentAvatar = voter?.avatar || AVATAR_PRESETS[0];
 
   return (
-    <main className="mx-auto min-h-screen w-full max-w-6xl px-3 py-4 sm:px-6 sm:py-6 select-none font-sans text-ink">
+    <main className="mx-auto w-full max-w-6xl px-3 pt-4 pb-[max(1.25rem,env(safe-area-inset-bottom))] sm:min-h-screen sm:px-6 sm:py-6 select-none font-sans text-ink">
       
       {/* Visual Money Splash Effect Component */}
       <MoneySplashOverlay effects={moneyEffects} />
@@ -509,7 +509,7 @@ export function ElectionGame() {
 
       {/* VIEW 2: REAL-TIME NAIJA BOARD VIEW */}
       {screen === "board" && (
-        <div className="space-y-4">
+        <div className="space-y-3 sm:space-y-4">
           {/* Phase Banner */}
           <div className="p-3.5 rounded-2xl bg-gradient-to-r from-emerald-950 via-slate-900 to-slate-950 border-2 border-emerald-500/40 flex flex-wrap items-center justify-between gap-3 text-white">
             <div className="flex items-center gap-3">
@@ -517,14 +517,14 @@ export function ElectionGame() {
                 {currentPhase === "voting_time" ? "1️⃣" : "2️⃣"}
               </div>
               <div>
-                <h3 className="font-bold text-sm flex items-center gap-2">
+                <h3 className="font-bold text-sm flex flex-wrap items-center gap-1.5 sm:gap-2">
                   <span>
                     {currentPhase === "voting_time"
                       ? "Phase 1: Voting Hours (Accreditation & Queue Defense)"
                       : "Phase 2: Public Count, IReV Transmission & Collation Security"}
                   </span>
                   {currentPhase === "voting_time" && (
-                    <span className="text-xs px-2.5 py-0.5 rounded-full bg-amber-500/20 border border-amber-400 text-amber-300 font-extrabold font-mono">
+                    <span className="text-[11px] sm:text-xs px-2 sm:px-2.5 py-0.5 rounded-full bg-amber-500/20 border border-amber-400 text-amber-300 font-extrabold font-mono whitespace-nowrap shrink-0">
                       {correctVotingActivitiesCount}/4 Correct Actions
                     </span>
                   )}

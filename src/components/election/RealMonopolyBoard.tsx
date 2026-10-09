@@ -209,10 +209,20 @@ export function RealMonopolyBoard({
     [0, 15, 14, 13, 12],
   ];
 
+  // Mobile (<640px): shrink the pawn indicator so it stays inside its tile
+  const [isNarrow, setIsNarrow] = React.useState(false);
+  React.useEffect(() => {
+    const mq = window.matchMedia("(max-width: 639px)");
+    const onChange = () => setIsNarrow(mq.matches);
+    onChange();
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+
   return (
-    <div className="w-full max-w-5xl mx-auto rounded-2xl sm:rounded-3xl border-4 sm:border-8 border-[#133c2a] bg-[#d3ebd9] shadow-2xl p-1.5 sm:p-5 select-none relative overflow-hidden font-sans">
-      {/* 5x5 BOARD GRID */}
-      <div className="grid grid-cols-5 grid-rows-5 gap-1 sm:gap-2 aspect-square max-h-[760px] w-full mx-auto relative bg-[#e7f5ec] rounded-xl sm:rounded-2xl p-1 sm:p-2 border-2 border-[#133c2a] shadow-inner">
+    <div className="box-border w-full max-w-full sm:max-w-5xl mx-auto rounded-2xl sm:rounded-3xl border-4 sm:border-8 border-[#133c2a] bg-[#d3ebd9] shadow-xl sm:shadow-2xl p-1.5 sm:p-5 select-none relative overflow-hidden font-sans">
+      {/* 5x5 BOARD GRID — mobile: natural row heights so tile text never clips; desktop: fixed square */}
+      <div className="grid grid-cols-5 gap-1 sm:gap-2 sm:grid-rows-5 sm:aspect-square sm:max-h-[760px] w-full max-w-full mx-auto relative bg-[#e7f5ec] rounded-xl sm:rounded-2xl p-1 sm:p-2 border-2 border-[#133c2a] shadow-inner">
         {gridTileMap.map((row, rIdx) =>
           row.map((tileIndex, cIdx) => {
             if (tileIndex === null) {
@@ -220,7 +230,7 @@ export function RealMonopolyBoard({
                 return (
                   <div
                     key="center-board"
-                    className="col-span-3 row-span-3 rounded-xl sm:rounded-2xl bg-gradient-to-br from-[#d4eadc] via-[#bce0c9] to-[#99c7aa] border-2 sm:border-4 border-[#0e3b25] p-1.5 sm:p-5 flex flex-col items-center justify-between shadow-xl relative overflow-hidden"
+                    className="col-span-3 row-span-3 rounded-xl sm:rounded-2xl bg-gradient-to-br from-[#d4eadc] via-[#bce0c9] to-[#99c7aa] border-2 sm:border-4 border-[#0e3b25] p-2 sm:p-5 flex flex-col items-center justify-between gap-2 sm:gap-0 shadow-lg sm:shadow-xl relative overflow-hidden"
                   >
                     {/* Watermark Logo */}
                     <div className="absolute inset-0 flex items-center justify-center opacity-10 pointer-events-none">
@@ -234,7 +244,7 @@ export function RealMonopolyBoard({
                       <div className="inline-flex items-center gap-1 px-2 sm:px-4 py-0.5 sm:py-1 rounded-full bg-[#008751] text-white font-black text-[8px] sm:text-sm tracking-wider uppercase shadow-lg border border-emerald-300">
                         <span className="truncate">★ {phase === "voting_time" ? "PHASE 1: VOTING TIME" : "PHASE 2: COLLATION"} ★</span>
                       </div>
-                      <h2 className="font-display text-xs sm:text-3xl font-extrabold text-[#0d2a1b] mt-0.5 sm:mt-1 tracking-tight truncate">
+                      <h2 className="font-display text-xs sm:text-3xl font-extrabold text-[#0d2a1b] mt-0.5 sm:mt-1 tracking-tight sm:truncate">
                         ELECTION DAY BOARD: 2027
                       </h2>
                       <div className="flex items-center justify-center gap-1 sm:gap-2 mt-0.5 sm:mt-1">
@@ -269,7 +279,7 @@ export function RealMonopolyBoard({
                         <button
                           type="button"
                           onClick={onOpenBallot}
-                          className="px-2.5 sm:px-4 py-1 sm:py-2 rounded-lg sm:rounded-xl bg-red-600 hover:bg-red-500 text-white text-[9px] sm:text-xs font-black flex items-center gap-1 sm:gap-1.5 shadow-xl shadow-red-900/60 animate-bounce active:scale-95 border border-amber-300"
+                          className="px-2.5 sm:px-4 py-1 sm:py-2 rounded-lg sm:rounded-xl bg-red-600 hover:bg-red-500 text-white text-[9px] sm:text-xs font-black flex items-center gap-1 sm:gap-1.5 shadow-xl shadow-red-900/60 sm:animate-bounce active:scale-95 border border-amber-300"
                         >
                           <Vote className="size-3 sm:size-4 text-white" />
                           <span>👉 VOTE NOW!</span>
@@ -305,7 +315,7 @@ export function RealMonopolyBoard({
                 onClick={() => onTileClick(tile, tileIndex)}
                 className={`relative rounded-xl sm:rounded-2xl border-2 flex flex-col justify-between p-1 sm:p-2 cursor-pointer transition-all duration-300 ${
                   isCurrent
-                    ? "border-[#008751] bg-amber-100 ring-4 ring-[#008751] shadow-2xl scale-105 z-30"
+                    ? "border-[#008751] bg-amber-100 ring-2 ring-[#008751] shadow-md z-30 sm:ring-4 sm:shadow-2xl sm:scale-105"
                     : isCorner
                       ? "border-[#133c2a] bg-[#b8dec0] hover:bg-[#a6d1af]"
                       : "border-slate-400 bg-white hover:border-slate-600 hover:shadow-md"
@@ -325,15 +335,15 @@ export function RealMonopolyBoard({
 
                 {/* 3D AVATAR MOVING PAWN PIECE */}
                 {isCurrent && (
-                  <div className="absolute inset-0 flex flex-col items-center justify-center z-40 pointer-events-none bg-emerald-500/20 backdrop-blur-[1px] rounded-xl animate-bounce">
+                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-0.5 z-40 pointer-events-none bg-emerald-500/20 backdrop-blur-[1px] rounded-xl overflow-hidden sm:animate-bounce">
                     <Avatar3D
                       avatar={playerAvatar}
-                      size={46}
+                      size={isNarrow ? 28 : 46}
                       interactive={false}
                       animated={true}
                       actionState={isMovingAvatar ? "walking" : "idle"}
                     />
-                    <span className="text-[7px] sm:text-[8px] font-black uppercase px-1.5 py-0.5 rounded bg-[#008751] text-white shadow-md">
+                    <span className="text-[7px] sm:text-[8px] font-black uppercase leading-tight text-center px-1 sm:px-1.5 py-0.5 rounded bg-[#008751] text-white shadow-md">
                       YOU DEY HERE
                     </span>
                   </div>
@@ -341,11 +351,11 @@ export function RealMonopolyBoard({
 
                 {/* Tile Icon & Title */}
                 <div className="flex flex-col items-center justify-center text-center my-auto px-0.5">
-                  <span className="text-xl sm:text-2xl drop-shadow-sm">{tile.icon}</span>
-                  <h4 className="font-extrabold text-[8px] sm:text-[11px] text-slate-900 leading-tight mt-0.5 line-clamp-2">
+                  <span className="text-base sm:text-2xl drop-shadow-sm">{tile.icon}</span>
+                  <h4 className="font-extrabold text-[9px] sm:text-[11px] text-slate-900 leading-tight mt-0.5 break-words sm:line-clamp-2">
                     {tile.name}
                   </h4>
-                  <p className="text-[7px] sm:text-[8px] text-slate-600 font-medium line-clamp-1">
+                  <p className="text-[7px] sm:text-[8px] text-slate-600 font-medium leading-snug break-words sm:line-clamp-1">
                     {tile.subtitle}
                   </p>
                 </div>
